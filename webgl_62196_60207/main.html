@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	
+<!--
+
+WebGL_example_16.html
+
+Reading a 3D model from a file.
+
+Triangle visualization modes.
+
+Modular code organization.
+
+J. Madeira - October 2015
+
+-->
+	
+<title>WebGL example 16 &mdash; 3D Models</title>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<!--
+
+The simple vertex and fragment shaders.
+
+Using a vertex coordinate buffer and a vertex colour buffer.
+
+Passing the Model-View Matrix.
+
+-->
+
+<script id="shader-vs" type="x-shader/x-vertex">
+	
+    attribute vec3 aVertexPosition;
+
+    attribute vec3 aVertexColor;
+    
+    uniform mat4 uMVMatrix;
+
+    varying vec4 vertexColor;
+    
+    void main(void) {
+		
+		// To allow seeing the points drawn
+		
+		gl_PointSize = 5.0;
+		
+		// Just converting the (x,y,z) vertices to Homogeneous Coord.
+		
+		// And multiplying by the Model-View matrix
+		
+        gl_Position = uMVMatrix * vec4(aVertexPosition, 1.0);
+        
+        // Converting the RGB color value to RGBA
+        
+        vertexColor = vec4(aVertexColor, 1.0);
+    }
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+
+	precision mediump float;
+	
+	varying vec4 vertexColor;
+	
+	void main(void) {
+		
+		// Using the passed vertex color
+		
+		gl_FragColor = vertexColor;
+	}
+
+</script>
+
+<link rel="stylesheet" href="bootstrap.css">
+<!-- The JS files -->
+
+<!-- Handling vectors and matrices -->
+
+<!-- WebGL code -->
+<script type="text/javascript" src="webgl-utils.js"></script>
+
+<!-- Handling vectors and matrices -->
+<script type="text/javascript" src="maths.js"></script>
+
+
+<!-- Creating the light sources -->
+<script type="text/javascript" src="lightSources.js"></script>
+
+<!-- WebGL code -->
+<script type="text/javascript" src="models.js"></script>
+<script type="text/javascript" src="initShaders.js"></script>
+<script type="text/javascript" src="phong.js"></script>
+<script type="text/javascript" src="objects.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+
+
+</head>
+
+<body onload="runWebGL();">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+	<h1>
+		Torres de Hanói
+	</h1>
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center well">
+	<canvas id="my-canvas"
+			style="border-radius:4px;background:white;border:1px solid #000000;" width="750px" height="350px"></canvas>
+</div>
+
+
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+	<p id="movesP">Movimentos <span id="movesN" class="badge">0</span></p>
+	<div id="movimentosTabela">
+		<table class="table table-condensed">
+			<tbody id="tableMoves">
+			<tr>
+				<th>#</th>
+				<th>Disco</th>
+				<th>Origem</th>
+				<th>Destino</th>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 well">
+
+
+	<div class="col-lg-2">
+		Mudar nº de Discos:
+		<div class="input-group">
+			<input id="numdiscos" type="text" class="form-control" placeholder="3..9">
+			<span class="input-group-btn">
+        <button class="btn btn-success" id="diskN" type="button">Go!</button>
+      </span>
+		</div><!-- /input-group -->
+	</div>
+	<div class="col-lg-2">
+		<button id="reset-button" class="btn btn-danger">Recomeçar</button>
+	</div>
+	<div class="col-lg-1">
+		<button id="undo-button" class="btn btn-warning" disabled="disabled">Undo</button>
+	</div>
+	<div class="col-lg-1">
+		<button id="redo-button" class="btn btn-warning" disabled="disabled">Redo</button>
+	</div>
+	<div class="col-lg-2">
+		<button id="solve-button" class="btn btn-primary">Mostrar solução</button>
+	</div>
+
+	<div class="col-lg-4">
+		<div id="erroDiv" style="visibility: hidden;">
+			<div class="alert alert-danger" role="alert"><p id="erro"></p></div>
+		</div>
+	</div>
+</div>
+
+</body>
+
+</html>
