@@ -1,10 +1,10 @@
-# cv_62196_60207
-
-## Computação Visual
-Este repositório contém o(s) projecto(s) implementados na cadeira Computação Visual.
+## Visual Computation
+This repository contains the projects implemented in the course Visual Computation in Aveiro's University.
 
 ## webgl_62196_60207
-Projecto de webgl que contém uma implementação 3D do jogo Torres de Hanói.
+# WebGL project for a Hanoi Tower puzzle.
+The user may interact with the pieces to solve the puzzle - with visual and textual feedback of each move.
+It also contains an automatic solving option.
 
 ## opencv_62196_60207
-Projecto de OpenCV que contém uma implementação de detecção de pessoas com uma câmara estática.
+# OpenCV project for people detection with a static camera.
