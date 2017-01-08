@@ -98,7 +98,11 @@ void processVideo()
     outputVideo.open("cv.wmv", fourcc, 15, frameSize, true);
 
 
-    int intruder_area_threshold = (int)floor(frame.size().height * frame.size().width * 0.05);  //Threshold for the intruder recognition area
+    int intruder_area_lower_threshold = (int)floor(frame.size().height * frame.size().width * 0.03);  //Threshold for the intruder recognition area
+
+
+    int intruder_area_upper_threshold = (int)floor(frame.size().height * frame.size().width * 0.8);  //Threshold for the intruder recognition area
+
 
     while( keyboard != 'q' && keyboard != 27 ){
         //read the current frame
@@ -133,7 +137,7 @@ void processVideo()
             }
             else {
                 box = boundingRect(c);
-                if(box.size().width*box.size().height > intruder_area_threshold) { //Verify if the box respects the threshold defined above
+                if(box.size().width*box.size().height > intruder_area_lower_threshold && box.size().width*box.size().height < intruder_area_upper_threshold) { //Verify if the box respects the threshold defined above
                     /**
                      * For each contoured box, it verifies the overlap percentage with existing intruders.
                      * In case it overlaps in more than 10%, the existing intruder is removed and updated
